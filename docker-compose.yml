@@ -1,11 +1,11 @@
 version: '3'
 services: 
   redis-server:
-    image: 'redis'
-    ports:
-      - "6379:6379"
+    image: 'arm32v7/redis:5.0.2'
   node-app:
-    restart: always
     build: .
+    devices:
+      - /dev/:/dev/
     ports:
       - "3000:3000"
+    privileged: true

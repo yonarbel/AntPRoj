@@ -8,7 +8,7 @@ const hrScanner = new Ant.HeartRateScanner(stick);
 
 const app = express();
 const client = redis.createClient({
-    host: 'localhost',
+    host: 'redis-server',
     port: 6379
 });
 client.set('heartRate', 0);
