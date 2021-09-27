@@ -1,8 +1,10 @@
 {
   "dependencies": {
+    "ant-plus": "0.0.23",
+    "axios": "^0.21.0",
+    "cors": "^2.8.5",
     "express": "*",
     "redis": "2.8.0",
-    "ant-plus": "0.0.23",
     "socket.io": "^2.3.0"
   },
   "scripts": {

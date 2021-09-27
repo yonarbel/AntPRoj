@@ -31,10 +31,18 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  created(){
+    axios.get('http://localhost:3000/users')
+  .then(function (response) {
+    // handle success
+    console.log(response);
+  })
   }
 }
 </script>
