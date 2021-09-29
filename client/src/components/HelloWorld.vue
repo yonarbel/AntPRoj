@@ -1,66 +1,97 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <label>Current HeartRate</label>
+    <input type="number" v-model="currentVal" />
+    <br/>
+     <label>Current age</label>
+     <input type="number" min="18" v-model="age" />
+     <br/>
+    
+    Val is {{ currentVal }}<br/>
+    Effort in percent: {{parsedVal}} <br/>
+    Your MHR is: {{MHR}}
+    <vue-speedometer
+      :needleHeightRatio="0.7"
+      :maxValue="100"
+      :minValue="25"
+      :height="180"
+      :maxSegmentLabels="5"
+      :segments="3"
+      :currentValueText="currentEffortText"
+      :customSegmentStops="[25, 50, 70, 90, 100]"
+      :segmentColors="['#1fcaff', '#1b94bb', '#f38f26', '#ff240c', 'yellow']"
+      :value="parsedVal"
+      :customSegmentLabels="[
+        {
+          text: 'Very light',
+          position: 'INSIDE',
+          fontSize: '12px',
+          color: '#fff',
+        },
+        {
+          text: 'Light',
+          position: 'INSIDE',
+          color: '#fff',
+          fontSize: '12px',
+        },
+        {
+          text: 'Moderate',
+          position: 'INSIDE',
+          color: '#fff',
+          fontSize: '12px',
+        },
+        {
+          text: 'Hard',
+          position: 'INSIDE',
+          color: '#fff',
+          fontSize: '12px',
+        },
+      ]"
+      textColor="black"
+    />
+     <img src="../assets/yonatana.jpeg" />
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import VueSpeedometer from "vue-speedometer";
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
+  components: { VueSpeedometer },
   props: {
-    msg: String
+    userDetails: Object,
   },
-  created(){
-    axios.get('http://localhost:3000/users')
-  .then(function (response) {
-    // handle success
-    console.log(response);
-  })
-  }
-}
+  data: () => ({
+    currentVal: 55,
+    age:16,
+    
+  }),
+  created() {
+    
+  },
+  computed: {
+    parsedVal() {
+      if(this.currentVal < 50) return 25;
+      return parseInt(100 * (this.currentVal / this.MHR));
+    },
+    MHR(){
+       return 220 - this.age;
+    },
+    currentEffortText() {
+      if (this.parsedVal < 50) return "Still resting ah?";
+      if (this.parsedVal < 70) return "Looks like someone is warming up!";
+      if (this.parsedVal < 90) return "You are on the burn calories zone!";
+       if (this.parsedVal > 90 &&  this.parsedVal < 100) return "Someone is working on stamina!";
+      return "Slow down tiger! take it easy";
+    },
+  },
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+img {
+    width: 130px;
+    border-radius: 50%;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>

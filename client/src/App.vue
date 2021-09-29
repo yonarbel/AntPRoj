@@ -1,18 +1,27 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <HelloWorld />
+    <HelloWorld />
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
     HelloWorld
-  }
+  },
+  data:()=>({
+     users:[]
+  }),
+  async created() {
+     const {data} = await axios.get("http://localhost:3000/users");
+     console.log('Data Is',data)  
+     
+     }
 }
 </script>
 
@@ -24,5 +33,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+   display: flex;
+    justify-content: space-evenly;
 }
 </style>
