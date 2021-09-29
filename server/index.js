@@ -25,9 +25,6 @@ const client = redis.createClient({
 client.set('heartRate', 0);
 heartRateInit.init();
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
-
 app.get('/', (req, res) => {
 
     client.get('heartRate', (err, heartRate) => {
