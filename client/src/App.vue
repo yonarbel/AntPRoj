@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <HelloWorld />
-    <HelloWorld />
+    <HelloWorld v-for="user in mockedUsers" :key=user.deviceId :user-details="user" />
   </div>
 </template>
 
@@ -15,7 +14,7 @@ export default {
     HelloWorld
   },
   data:()=>({
-     users:[]
+     mockedUsers:[{"username":"yonarbel","deviceId":"22715","imageUrl":"yonatana","displayName":"Yonatan Arbel",age:34},{"username":"danielk","deviceId":"22968","imageUrl":"daniel","displayName":"Daniel Keler",age:36}]
   }),
   async created() {
      const {data} = await axios.get("http://localhost:3000/users");
