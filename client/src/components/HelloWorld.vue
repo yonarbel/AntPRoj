@@ -1,12 +1,5 @@
 <template>
-  <div class="hello">
-    <label>Current HeartRate</label>
-    <input type="number" v-model="currentVal" />
-    <br />
-
-    {{ userDetails }}
-    Val is {{ currentVal }}<br />
-    Effort in percent: {{ parsedVal }} <br />
+  <div class="widget" :class="{'is-available':isAvailable}">
     Your MHR is: {{ MHR }}
     <vue-speedometer
       :needleHeightRatio="0.7"
@@ -48,17 +41,16 @@
       textColor="black"
     />
     <img :src="require(`@/assets/${userDetails.imageUrl}.jpeg`)" />
-    <small>{{ userDetails.displayName }}</small>
+    <small>{{ userDetails.displayName }} ({{ userDetails.deviceId }})</small>
     <div class="center">
       <div class="pulse"></div>
-      Current Heart Rate: {{ currentVal }}
+      Current Heart Rate: {{ currentHeartBeat }}
     </div>
-      <div class="center">
-    <div>Effort Level (%):</div>
-    {{ parsedVal }}
+    <div class="center">
+      <div>Effort Level (%):</div>
+      {{ parsedVal }}
+    </div>
   </div>
-  </div>
- 
 </template>
 
 <script>
@@ -68,16 +60,16 @@ export default {
   components: { VueSpeedometer },
   props: {
     userDetails: Object,
+    currentHeartBeatDetails: { type: Object, default: () => ({}) },
   },
   data: () => ({
-    currentVal: 55,
     age: 16,
   }),
   created() {},
   computed: {
     parsedVal() {
-      if (this.currentVal < 50) return 25;
-      return parseInt(100 * (this.currentVal / this.MHR));
+      if (this.currentHeartBeat < 50) return 25;
+      return parseInt(100 * (this.currentHeartBeat / this.MHR));
     },
     MHR() {
       return 220 - this.userDetails.age;
@@ -90,11 +82,18 @@ export default {
         return "Someone is working on stamina!";
       return "Slow down tiger! take it easy";
     },
+    currentHeartBeat() {
+      if (!this.currentHeartBeatDetails["ComputedHeartRate"]) return 0;
+      return this.currentHeartBeatDetails["ComputedHeartRate"];
+    },
+    isAvailable() {
+      return this.currentHeartBeat > 0;
+    },
   },
 };
 </script>
 
-<style scoped>
+<style scoped >
 img {
   width: 130px;
   border-radius: 50%;
@@ -138,5 +137,14 @@ small {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.widget {
+    opacity: 0.3;
+    transition: opacity 0.25s ease-in;
+}
+
+.widget.is-available{
+    opacity: 1 !important;
 }
 </style>
