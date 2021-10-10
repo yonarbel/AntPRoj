@@ -4,7 +4,7 @@ services:
     image: 'arm32v7/redis:5.0.2'
     ports: 6379:6379
   node-app:
-  dockerfile: Dockerfile.dev
+  dockerfile: Dockerfile.server.dev
     build: .
     devices:
       - /dev/:/dev/

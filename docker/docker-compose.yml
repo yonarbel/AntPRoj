@@ -1,0 +1,13 @@
+version: '3'
+services:
+  heart-rate-server:
+    image: heart-rate-server:${APP_VERSION}
+    ports:
+        - "3000"
+    devices:
+      - /dev/:/dev/
+    privileged: true
+  heart-rate-client:
+      image: heart-rate-client:${APP_VERSION}
+      ports:
+        - "5000:5000"
