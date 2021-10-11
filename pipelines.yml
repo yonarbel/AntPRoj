@@ -21,7 +21,7 @@ pipelines:
               trigger: true
         execution:
           onStart:
-            - source "${res_rpidemogithub_resourcePath}/ci/scripts/build.sh"
+            - source "${res_HeartRateRepo_resourcePath}/ci/scripts/build.sh"
             - on_start
           onExecute:
             - on_execute
