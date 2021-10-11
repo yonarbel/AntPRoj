@@ -12,7 +12,7 @@ function on_start() {
 
 function on_execute() {
   echo "executing..."
-  make build-app
+  make ${1}
 }
 
 function on_success() {

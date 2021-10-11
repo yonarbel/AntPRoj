@@ -17,9 +17,13 @@ build-app:				## Build Heart Rate Application (Server)
 	@docker rmi -f heart-rate-server:${APP_VERSION}
 	@docker-compose -f $(DOCKER_BUILD_PATH) build --no-cache
 
-build-client-app:				## Build Heart Rate Application (Client)
+build-app-client:				## Build Heart Rate Application (Client)
 	@docker rmi -f heart-rate-client:${APP_VERSION}
 	@docker-compose -f $(DOCKER_BUILD_PATH) build heart-rate-client
+
+build-app-server:				## Build Heart Rate Application (Server)
+	@docker rmi -f heart-rate-server:${APP_VERSION}
+	@docker-compose -f $(DOCKER_BUILD_PATH) build heart-rate-server
 
 # START/STOP:
 start-app:				## Start Heart Rate Application (Server + FE)
