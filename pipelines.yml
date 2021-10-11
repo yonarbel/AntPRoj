@@ -7,33 +7,30 @@ resources:
       # Repository path, including org name/repo name
       path: yonarbel/AntPRoj
 
-  - name: myPropertyBag
-    type: PropertyBag
-    configuration:
-      commitSha: 1
-      runID: 1
-
 pipelines:
   - name: HeartRatePipe
     steps:
       - name: p1_s1
         type: Bash
         configuration:
+          chronological: true
+          affinityGroup: heart_rate_app_build_main_path
           inputResources:
             # Sets up step to be triggered when there are commit events to HeartRateRepo
             - name: HeartRateRepo
+              trigger: true
         execution:
+          onStart:
+            - source "${res_rpidemogithub_resourcePath}/ci/scripts/build.sh"
+            - on_start
           onExecute:
-            # Data from input resources is available as env variables in the step
-            - echo $res_HeartRateRepo_commitSha
-            # The next two commands add variables to run state, which is available to all downstream steps in this run
-            # Run state documentation: https://www.jfrog.com/confluence/display/JFROG/Creating+Stateful+Pipelines#CreatingStatefulPipelines-RunState
-            - add_run_variables current_runid=$run_id
-            - add_run_variables commitSha=$res_HeartRateRepo_commitSha
-            # This variable is written to pipeline state in p1_s3.
-            # So this will be empty during first run and will be set to prior run number in subsequent runs
-            # Pipeline state documentation: https://www.jfrog.com/confluence/display/JFROG/Creating+Stateful+Pipelines#CreatingStatefulPipelines-PipelineState
-            - echo "Previous run ID is $prev_runid"
+            - on_execute
+          onSuccess:
+            - on_success
+          onFailure:
+            - on_failure
+          onComplete:
+            - on_complete
 
       - name: p1_s2
         type: Bash
