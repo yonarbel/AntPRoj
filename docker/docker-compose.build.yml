@@ -1,0 +1,12 @@
+version: '3'
+services: 
+  heart-rate-server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.server
+    image: heart-rate-server:${APP_VERSION}
+  heart-rate-client:
+      build:
+        context: ..
+        dockerfile: docker/Dockerfile.client
+      image: heart-rate-client:${APP_VERSION}

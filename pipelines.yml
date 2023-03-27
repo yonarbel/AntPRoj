@@ -1,0 +1,53 @@
+resources:
+  - name: heart_rate_repo
+    type: GitRepo
+    configuration:
+      # SCM integration where the repository is located
+      gitProvider: rpidemogithub
+      # Repository path, including org name/repo name
+      path: yonarbel/AntPRoj
+
+pipelines:
+  - name: HeartRateApp
+    steps:
+      - name: build_server
+        type: Bash
+        configuration:
+          chronological: true
+          affinityGroup: heart_rate_docker_images
+          inputResources:
+            - name: heart_rate_repo
+              trigger: true
+        execution:
+          onStart:
+            - source "${res_heart_rate_repo_resourcePath}/ci/scripts/build.sh"
+            - on_start
+          onExecute:
+            - on_execute build-app-server
+          onSuccess:
+            - on_success
+          onFailure:
+            - on_failure
+          onComplete:
+            - on_complete
+
+      - name: build_client
+        type: Bash
+        configuration:
+          chronological: true
+          affinityGroup: heart_rate_docker_images
+          inputResources:
+            - name: heart_rate_repo
+              trigger: true
+        execution:
+          onStart:
+            - source "${res_heart_rate_repo_resourcePath}/ci/scripts/build.sh"
+            - on_start
+          onExecute:
+            - on_execute build-app-client
+          onSuccess:
+            - on_success
+          onFailure:
+            - on_failure
+          onComplete:
+            - on_complete
