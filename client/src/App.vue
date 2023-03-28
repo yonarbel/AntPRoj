@@ -38,7 +38,7 @@ export default {
     ],
   }),
   async created() {
-    const { data } = await axios.get("http://localhost:3000/users");
+    const { data } = await axios.get("/api/users");
     console.log("Data Is", data);
     this.$options.sockets.onmessage = ({ data }) => {
       const { DeviceID, ComputedHeartRate } = JSON.parse(data);

@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 
 
 
-app.get('/users', (req, res) => {
+app.get('/api/users', (req, res) => {
         res.send(usersData);
 });
 

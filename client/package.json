@@ -11,9 +11,10 @@
   "dependencies": {
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
+    "http-proxy-middleware": "^2.0.6",
     "vue": "^2.6.11",
-    "vue-speedometer": "^1.8.0",
-    "vue-native-websocket": "2.0.15"
+    "vue-native-websocket": "2.0.15",
+    "vue-speedometer": "^1.8.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
