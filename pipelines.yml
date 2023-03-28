@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       # SCM integration where the repository is located
-      gitProvider: rpidemogithub
+      gitProvider: github_integration
       # Repository path, including org name/repo name
       path: yonarbel/AntPRoj
 
